@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'java-library'
+	id 'application'
+}
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	compile
+}
+
+subprojects {
+	group = 'com.waldecleber.ponto'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '1.8'
+
+	apply plugin: 'java'
+	apply plugin: 'java-library'
+
+	repositories {
+		mavenCentral()
+	}
+
+	ext {
+		springBootVersion = "2.5.3"
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+//	implementation 'org.springframework.boot:spring-boot-starter-jersey'
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation project(":ms-ponto-app")
+//	implementation project(":ms-ponto-api")
+//	implementation project(":ms-ponto-impl")
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+mainClassName = "com.waldecleber.ponto.MsPontoAppApplication"
+
+jar {
+	manifest {
+		attributes "Main-Class": "$mainClassName"
+	}
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}

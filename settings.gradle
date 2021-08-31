@@ -1,0 +1,4 @@
+rootProject.name = 'ms-ponto'
+include 'ms-ponto-api'
+include 'ms-ponto-app'
+include 'ms-ponto-impl'
